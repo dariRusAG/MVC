@@ -1,0 +1,41 @@
+.block_choice {
+    background-color: #f1f1f1;
+    border-left: 6px solid #e04386;
+    padding: 25px 18px;
+    width: 15%;
+    display: block;
+    float: left;
+    margin-bottom: 6px;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.block_output {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: 16%;
+    padding: 14px 14px;
+}
+
+/*.back_button {*/
+/*    margin-right: 740px;*/
+/*}*/
+
+.info {
+    text-align: center;
+    height: auto;
+    width: 100%;
+    padding-top: 14px;
+}
+
+.block {
+    padding: 20px 25px;
+    background: #ad8596;
+    border: 2px dashed #e3c3d4;
+    border-radius: 10px;
+    color: #fff;
+    margin: 15px;
+    width: 265px;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.4);
+    font-size: 14px;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск книг</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/search_style.css">
+    {% import "macros.html" as macros %}
+</head>
+<body>
+<div class=menu>
+    <ul>
+        <li class=active><a href={{url_for("search")}}>Поиск книг</a></li>
+    </ul>
+</div>
+
+<div class="catalog">
+    <div class="block_choice">
+        <form action="" method="post">
+            {% for df, name_df, view in zip(list_data, sections, list_choices) %}
+            {{ macros.render_block_choice(df, name_df, view, len) }}
+            {% endfor %}
+            <input class="block_choice_button" type="submit" value="Найти">
+            <input class="block_choice_button" type="submit" value="Очистить">
+        </form>
+    </div>
+
+    <div class="block_output">
+    <div class="back_button">
+        <input type="button" onclick="window.location='{{ url_for('index') }}'" value="Не выбирать книгу">
+    </div>
+
+        <div class="info">
+            {% for df, name_df, view in zip(list_data, sections, list_choices) %}
+            {{ macros.render_info_choice(df, name_df, view, len) }}
+            {% endfor %}
+        </div>
+        {{ macros.render_books(books, len) }}
+    </div>
+
+</div>
+</body>
+</html>

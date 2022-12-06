@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<!-- Макрос для вывода таблицы без ключевого столбца, переданного параметром -->
+{% macro render_table(table_name, relation, id, len) %}
+<p><b>{{table_name}}</b></p>
+{% set n = len(relation) %}
+{% if n == 0 %}
+<p>У вас нет книг на руках.</p>
+{% else %}
+<table>
+    <tr>
+        {% for name in relation.dtypes.index %}
+        {% if name != id %}
+        <th>{{ name }}</th>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    <tbody>
+
+    {% for i in range(n) %}
+    <tr>
+        {% for name in relation.dtypes.index %}
+        {% if name != id %}
+        <td>
+            {% if relation.loc[i, name] == None %}
+            <form action="" method="get">
+                <input type="hidden" name=return_book value={{relation.loc[i,"book_reader_id"]}}>
+                <form action="" method="post">
+                    <input type="submit" value="Сдать">
+                </form>
+            </form>
+            {% else %}
+            {{ relation.loc[i, name] }}
+            {% endif %}
+        </td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endmacro %}
+
+<!-- Макрос для формирования поля со списком -->
+{% macro render_form(combo_box, reader_id, len) %}
+<select name="reader" required>
+    {% set n = len(combo_box) %}
+    <!-- формируем строки списка (каждое значение поля
+    reader_name - строка списка) в виде
+    <option [selected] value = код_читателя> ФИО </option>
+    -->
+    {% for i in range(n) %}
+    {% set id_r = combo_box.loc[i, "reader_id"] %}
+    <!-- атрибут value элемента будет совпадать с id читателя -->
+    {% if id_r == reader_id %}
+    <!-- если код читателя из таблицы совпадает с кодом
+    текущего читателя устанавливаем атрибут selected -->
+    <option selected value={{id_r}}>
+        {% else %}
+    <option value={{id_r}}>
+        {% endif %}
+        {{ combo_box.loc[i, "reader_name"] }}
+    </option>
+    {% endfor %}
+</select>
+{% endmacro %}
+
+
+<!--Макрос генерации формы выбора-->
+{% macro render_block_choice(data, title, choice, len) %}
+<b>{{ title }}</b>
+{% set n = len(data) %}
+{% for i in range(n) %}
+<p>
+    {% if data.loc[i, "id"] in choice %}
+    <input type="checkbox" checked>
+    {% else %}
+    <input type="checkbox">
+    {% endif %}
+    {{ data.loc[i, "Название"] }}
+    ({{ data.loc[i, "Количество_экземпляров"] }})
+</p>
+{% endfor %}
+{% endmacro %}
+
+<!--Макрос генерации информации о выбранных категориях-->
+{% macro render_info_choice(data, title, choice, len) %}
+<b>{{ title }}:</b>
+{% if len(choice) == 0 %} ничего не выбрано
+{% else %}
+{% set n = len(data) %}
+{% for i in range(n) %}
+{% if data.loc[i, "id"] in choice %}
+{{ data.loc[i, "Название"] }};
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endmacro %}
+
+<!--Макрос генерации найденных книг-->
+{% macro render_books(books, len) %}
+{% set columns = books.columns %}
+{% set n = len(books) %}
+{% for i in range(n) %}
+<div class="block">
+    {% for j in range(len(columns)) %}
+    {% if columns[j] != 'book_id' %}
+    <p>{{ columns[j] }}:
+        <b>{{ books.loc[i, columns[j]] }}</b>
+    </p>
+    {% endif %}
+    {% endfor %}
+    <form action="{{ url_for('index') }}" method="get">
+        {% if books.loc[i, 'Количество'] == 0 %}
+        <input class="take_book_button" type="submit" disabled value="Выбрать">
+        {% else %}
+        <input class="take_book_button" type="submit" value="Выбрать">
+        {% endif %}
+        <label>
+            <input hidden type="text" name="book" value="{{ books.loc[i, 'book_id'] }}">
+        </label>
+    </form>
+</div>
+{% endfor %}
+{% endmacro %}

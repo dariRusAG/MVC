@@ -1,0 +1,64 @@
+html {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    background: #baacd2;
+}
+
+input {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 12px;
+}
+
+.write {
+    text-transform: none;
+    letter-spacing: normal;
+    padding: 0 0;
+}
+
+/* Меню страниц */
+.menu {
+ background-color: #f1f1f1;
+ box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.4);
+ width: 100%;
+}
+
+/* Теперь уберем маркеры со списка и произведем выравнивание его элементов в одну линию */
+.menu li {
+ display: inline-block;
+ vertical-align: top;
+ padding: 10px;
+ color: #6f6d6d;
+}
+
+.menu a {
+ text-decoration: none; /* Убирает подчеркивание для ссылок */
+ color: #6f6d6d;
+ }
+
+.menu li:hover {
+ background-color: #e04386;
+ cursor: pointer;
+ color: #f8f8f8;
+}
+
+.menu ul {
+ padding: 0px;
+}
+
+.active{
+ background-color: #e04386;
+ color: #f8f8f8;
+}
+
+.active a:visited{
+ color: #f8f8f8;
+}
+
+.menu a:hover{
+ color: #f8f8f8;
+}
+
+.block {
+ padding: 10px 20px;
+}
