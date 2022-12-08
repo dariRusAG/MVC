@@ -16,12 +16,13 @@
 
 <div class="catalog">
     <div class="block_choice">
-        <form action="" method="post">
+        <form action="{{url_for('search')}}" method="post">
             {% for df, name_df, view in zip(list_data, sections, list_choices) %}
             {{ macros.render_block_choice(df, name_df, view, len) }}
             {% endfor %}
             <input class="block_choice_button" type="submit" value="Найти">
-            <input class="block_choice_button" type="submit" value="Очистить">
+            <input class="block_choice_button" type="submit" name="clear" value="Очистить">
+
         </form>
     </div>
 

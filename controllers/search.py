@@ -4,7 +4,7 @@ from utils import get_db_connection
 from models.search_model import *
 
 
-@app.route('/search', methods=['get'])
+@app.route('/search', methods=['get', 'post'])
 def search():
     conn = get_db_connection()
 
@@ -13,9 +13,15 @@ def search():
     df_author = get_author(conn)
     df_publisher = get_publisher(conn)
 
-    genres = request.form.getlist('genres')
-    authors = request.form.getlist('authors')
-    publishers = request.form.getlist('publishers')
+    if request.form.get('clear'):
+        genres = []
+        publishers = []
+        authors = []
+
+    else:
+        genres = request.form.getlist('Жанр')
+        authors = request.form.getlist('Автор')
+        publishers = request.form.getlist('Издательство')
 
     df_book = get_book(conn, genres, authors, publishers)
 
@@ -26,9 +32,9 @@ def search():
         list_data=[df_genre, df_author, df_publisher],
         list_choices=[genres, authors, publishers],
         books=df_book,
-        genres=genres,
-        authors=authors,
-        publishers=publishers,
+        # genre=genres,
+        # author=authors,
+        # publisher=publishers,
         len=len,
         zip=zip,
     )

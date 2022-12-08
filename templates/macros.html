@@ -46,16 +46,12 @@
 {% macro render_form(combo_box, reader_id, len) %}
 <select name="reader" required>
     {% set n = len(combo_box) %}
-    <!-- формируем строки списка (каждое значение поля
-    reader_name - строка списка) в виде
-    <option [selected] value = код_читателя> ФИО </option>
-    -->
+    <!-- формируем строки списка (каждое значение поля reader_name - строка списка) в виде <option [selected] value = код_читателя> ФИО </option> -->
     {% for i in range(n) %}
     {% set id_r = combo_box.loc[i, "reader_id"] %}
     <!-- атрибут value элемента будет совпадать с id читателя -->
     {% if id_r == reader_id %}
-    <!-- если код читателя из таблицы совпадает с кодом
-    текущего читателя устанавливаем атрибут selected -->
+    <!-- если код читателя из таблицы совпадает с кодом текущего читателя устанавливаем атрибут selected -->
     <option selected value={{id_r}}>
         {% else %}
     <option value={{id_r}}>
@@ -70,16 +66,15 @@
 <!--Макрос генерации формы выбора-->
 {% macro render_block_choice(data, title, choice, len) %}
 <b>{{ title }}</b>
-{% set n = len(data) %}
-{% for i in range(n) %}
+{% for i in range(len(data)) %}
 <p>
-    {% if data.loc[i, "id"] in choice %}
-    <input type="checkbox" checked>
+    {% set value=data.loc[i,'Название'] %}
+    {% if value in choice %}
+    <input type="checkbox" name="{{ title }}" value="{{ value }}" checked>
     {% else %}
-    <input type="checkbox">
+    <input type="checkbox" name="{{ title }}" value="{{ value }}">
     {% endif %}
-    {{ data.loc[i, "Название"] }}
-    ({{ data.loc[i, "Количество_экземпляров"] }})
+    {{ value }} ({{ data.loc[i, "Количество_экземпляров"] }})
 </p>
 {% endfor %}
 {% endmacro %}
@@ -89,9 +84,8 @@
 <b>{{ title }}:</b>
 {% if len(choice) == 0 %} ничего не выбрано
 {% else %}
-{% set n = len(data) %}
-{% for i in range(n) %}
-{% if data.loc[i, "id"] in choice %}
+{% for i in range(len(data)) %}
+{% if data.loc[i, "Название"] in choice %}
 {{ data.loc[i, "Название"] }};
 {% endif %}
 {% endfor %}
